@@ -17,110 +17,69 @@ public class MatrixRotation {
 		int matSize = mat.length;
 		
 		for(int layer_i=0; layer_i<Math.floor(matSize/2); layer_i++){
-			rotateLayer(layer_i, matSize);
+			rotateCC(layer_i, matSize);
 		}
 		return mat;
 	}
 	
-	public void rotateLayer(int layer, int matrixSize){
-		int val = matrixSize-(layer*2);
-		
-		p("current matrixSize: " + matrixSize);
-		
+	/**
+	 * Rotates the matrix counter clockwise (CC)
+	 * @param layer
+	 * @param matrixSize
+	 */
+	public void rotateCC(int layer, int matrixSize){
+		int val = matrixSize - (layer*2);
 		int[] temp = new int[val-1];
 		
 		int maxIndex = matrixSize-1-layer;
 		int minIndex = layer;
 		
-		p("maxIndex:" + maxIndex);
-		p("minIndex:" + minIndex);
+		//p("maxIndex:" + maxIndex);
+		//p("minIndex:" + minIndex);
 		
+		// COPY TOP TO TEMP
 		int x=minIndex, y=minIndex;
-		for (x=minIndex; x<maxIndex;x++){
-			temp[x-minIndex]=mat[y][x];
-			// Copy top to temp
-			
+		for (x=minIndex; x<maxIndex; x++) {
+			temp[x-minIndex]=mat[y][x];	
 		}
 		
-		for(int i=0; i<mat.length;i++){
-			for(int j=0; j<mat.length; j++){
-				if (j == mat.length-1){
-					System.out.println(mat[i][j]);
-				} else {
-					System.out.print(mat[i][j] + ",");
-				}
-			}
-		}
-		p("B");
-		x=maxIndex;
-		for (y=minIndex; y<maxIndex;y++){
-			//right[y]=mat[y][x];
-			// Copy right side to top side
+		//p("A");
+		//printMatrixDebug();
+		
+		// COPY RIGHT SIDE TO TOP SIDE
+		x=maxIndex; 
+		for (y=minIndex; y<maxIndex; y++) {
 			mat[minIndex][y] = mat[y][x];
-			
 		}
 		
-		for(int i=0; i<mat.length;i++){
-			for(int j=0; j<mat.length; j++){
-				if (j == mat.length-1){
-					System.out.println(mat[i][j]);
-				} else {
-					System.out.print(mat[i][j] + ",");
-				}
-			}
-		}
-		p("A");
+		//p("B");
+		//printMatrixDebug();
 		
+		// COPY BOTTOM SIDE TO RIGHT SIDE
 		y=maxIndex;
-		for(x=maxIndex;x>minIndex;x--){
-			//bottom[maxIndex-x] = mat[y][x];
-			// Copy bottom side to right side
+		for(x=maxIndex; x>minIndex; x--) {
 			mat[minIndex+maxIndex-x][y] = mat[y][x];
 		}
 		
-		for(int i=0; i<mat.length;i++){
-			for(int j=0; j<mat.length; j++){
-				if (j == mat.length-1){
-					System.out.println(mat[i][j]);
-				} else {
-					System.out.print(mat[i][j] + ",");
-				}
-			}
-		}
-		p("C");
+		//p("C");
+		//printMatrixDebug();
+		
+		// COPY LEFT SIDE TO BOTTOM SIDE
 		x=minIndex;
-		for(y=maxIndex;y>minIndex;y--){
-			//left[maxIndex-y]=mat[y][x];
-			// Copy left side to bottom side
+		for(y=maxIndex; y>minIndex; y--) {
 			mat[maxIndex][y] = mat[y][x];
 		}
 		
-		for(int i=0; i<mat.length;i++){
-			for(int j=0; j<mat.length; j++){
-				if (j == mat.length-1){
-					System.out.println(mat[i][j]);
-				} else {
-					System.out.print(mat[i][j] + ",");
-				}
-			}
-		}
-		p("D");
+		//p("D");
+		//printMatrixDebug();
 		
-		for (int i=0;i<temp.length;i++){
+		// COPY TEMP TO LEFT
+		for (int i=0; i<temp.length; i++) {
 			mat[maxIndex-i][minIndex] = temp[i];
 		}
 		
-		for(int i=0; i<mat.length;i++){
-			for(int j=0; j<mat.length; j++){
-				if (j == mat.length-1){
-					System.out.println(mat[i][j]);
-				} else {
-					System.out.print(mat[i][j] + ",");
-				}
-			}
-		}
-		
-		p("E");
+		//p("E");
+		//printMatrixDebug();
 		
 	}
 	public void arrayCopy(int[] src, int[] dest){
@@ -147,6 +106,17 @@ public class MatrixRotation {
 				System.out.print("["+num + ", ");
 			} else {
 				System.out.print(num + ", ");
+			}
+		}
+	}
+	private void printMatrixDebug(){
+		for(int i=0; i<mat.length;i++){
+			for(int j=0; j<mat.length; j++){
+				if (j == mat.length-1){
+					System.out.println(mat[i][j]);
+				} else {
+					System.out.print(mat[i][j] + ",");
+				}
 			}
 		}
 	}
